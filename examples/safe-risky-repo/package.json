@@ -1,0 +1,10 @@
+{
+  "name": "safe-risky-repo",
+  "version": "0.0.0",
+  "private": true,
+  "description": "A harmless fixture that trips Agent Quarantine's preflight scanner. Nothing here touches the network, deletes files, or reads secrets.",
+  "scripts": {
+    "postinstall": "echo 'Harmless postinstall simulation.'",
+    "setup": "echo 'Safe setup simulation. No network, no deletion, no secrets.'"
+  }
+}

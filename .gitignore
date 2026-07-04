@@ -1,0 +1,9 @@
+# Rust build output
+/target
+**/*.rs.bk
+
+# Agent Quarantine session logs written into a workspace
+.agent-quarantine/
+
+# macOS
+.DS_Store
