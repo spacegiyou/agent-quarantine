@@ -1,5 +1,9 @@
 # Agent Quarantine
 
+[![CI](https://github.com/spacegiyou/agent-quarantine/actions/workflows/ci.yml/badge.svg)](https://github.com/spacegiyou/agent-quarantine/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/spacegiyou/agent-quarantine?label=release)](https://github.com/spacegiyou/agent-quarantine/releases)
+[![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](#license)
+
 **A local command firewall and safety layer for AI coding agents.**
 
 Agent Quarantine is not a sandbox. It is a command firewall and audit layer for
@@ -11,6 +15,18 @@ Codex, Claude Code, Cline, Cursor agents, Gemini CLI, Aider, Continue — so tha
 the shell commands it launches are **observed, dangerous ones are blocked, risky
 ones require your approval, and everything is written to a readable audit log**.
 See [Limitations](docs/limitations.md).
+
+If this project helps you run AI coding agents more safely, consider starring
+the repo so other developers can find it.
+
+## Watch the 71-second demo
+
+[![Agent Quarantine demo video](assets/demo/thumbnail.png)](assets/demo/agent-quarantine-demo-en.mp4)
+
+The demo shows Agent Quarantine blocking `curl | sh`, blocking a sensitive
+`.env` search, scanning a risky repo with `preflight`, and generating a Markdown
+audit report. English subtitles are available as
+[SRT](assets/demo/agent-quarantine-demo.en.srt).
 
 ---
 

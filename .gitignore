@@ -5,5 +5,10 @@
 # Agent Quarantine session logs written into a workspace
 .agent-quarantine/
 
+# Local demo-video build workspaces. Final publishable assets live in
+# assets/demo/.
+/agent-quarantine-demo-video/
+/agent-quarantine-demo-video-en/
+
 # macOS
 .DS_Store

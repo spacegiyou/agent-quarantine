@@ -1,0 +1,48 @@
+1
+00:00:00,050 --> 00:00:07,354
+Agent Quarantine is a local command firewall for AI coding
+agents. It is not a sandbox; it is a PATH shim safety
+layer.
+
+2
+00:00:07,454 --> 00:00:16,758
+The boundary is explicit. Common tools are intercepted by
+shims, dangerous commands are blocked, risky commands ask
+for approval, and every decision is logged.
+
+3
+00:00:16,858 --> 00:00:25,600
+Demo one. A remote script downloaded with curl and
+immediately piped into sh is blocked by default, because
+it gives the remote server code execution.
+
+4
+00:00:25,700 --> 00:00:35,058
+Demo two. Searching dot env for an API key with grep is
+blocked as credential file read. Read-only tools are not
+safe when they are pointed at secret files.
+
+5
+00:00:35,158 --> 00:00:45,250
+Preflight scans the repository before the agent starts. In
+the sample repo, it finds an npm lifecycle script and an
+instruction that tells the agent to ignore safety.
+
+6
+00:00:45,350 --> 00:00:52,541
+The report command turns a JSONL session log into
+Markdown, preserving which command was blocked and the
+reason for that decision.
+
+7
+00:00:52,641 --> 00:01:01,222
+Agent Quarantine is honest about its boundary. It is not a
+virtual machine or kernel sandbox, and absolute path
+binaries can bypass PATH shims.
+
+8
+00:01:01,322 --> 00:01:10,944
+Before handing an unfamiliar repo to an AI agent, Agent
+Quarantine gives you a practical first layer that stops
+common dangerous commands and creates a readable audit
+trail.
