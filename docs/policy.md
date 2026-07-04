@@ -39,6 +39,48 @@ sensitive_paths: []        # extra credential-like path fragments to treat as
                            # sensitive, merged with the built-in list
 ```
 
+## Safe example policies
+
+These examples are intentionally boring and copy-pasteable. They show common
+agent workflows without using real secrets or destructive commands.
+
+### Read-only repo inspection with package installs gated
+
+```yaml
+version: 1
+mode: ask
+non_interactive: deny
+commands:
+  unknown: ask
+  package_manager_install: ask
+```
+
+With this baseline, read-only commands such as `git status`, `git diff`,
+`git log`, `ls`, `cat`, `grep`, and `rg` stay allowed by the built-in rules,
+while package installs still pause for approval.
+
+### Keep credential-file reads blocked
+
+Credential-like paths stay blocked by the built-in detector even if the agent is
+otherwise allowed to inspect the repo. For example:
+
+- blocked: `cat .env`
+- blocked: `rg API_KEY .env`
+- blocked: `cp ~/.ssh/id_rsa /tmp/id_rsa`
+
+### CI or automation fail-closed mode
+
+Use a non-interactive deny policy in CI so approval prompts never turn into
+implicit allows:
+
+```yaml
+version: 1
+mode: ask
+non_interactive: deny
+logging:
+  redact_secrets: true
+```
+
 ## Precedence and overrides
 
 - CLI flags override the file: `--mode`, `--non-interactive`.
