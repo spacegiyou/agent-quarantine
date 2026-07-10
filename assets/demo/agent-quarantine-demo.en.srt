@@ -1,48 +1,46 @@
 1
-00:00:00,050 --> 00:00:07,354
-Agent Quarantine is a local command firewall for AI coding
-agents. It is not a sandbox; it is a PATH shim safety
-layer.
+00:00:00,220 --> 00:00:10,974
+Agent Quarantine is a local command firewall for AI coding agents.
+It isn't a sandbox. Think of it as a practical safety layer between
+an agent and your shell.
 
 2
-00:00:07,454 --> 00:00:16,758
-The boundary is explicit. Common tools are intercepted by
-shims, dangerous commands are blocked, risky commands ask
-for approval, and every decision is logged.
+00:00:11,494 --> 00:00:21,971
+Here's the basic idea. Common tools go through lightweight path
+shims. Dangerous commands are blocked, risky ones pause for
+approval, and every decision is logged.
 
 3
-00:00:16,858 --> 00:00:25,600
-Demo one. A remote script downloaded with curl and
-immediately piped into sh is blocked by default, because
-it gives the remote server code execution.
+00:00:22,491 --> 00:00:32,626
+Here's the first example. An agent downloads a remote script with
+curl and pipes it straight into a shell. Agent Quarantine blocks it
+before anything can run.
 
 4
-00:00:25,700 --> 00:00:35,058
-Demo two. Searching dot env for an API key with grep is
-blocked as credential file read. Read-only tools are not
-safe when they are pointed at secret files.
+00:00:33,146 --> 00:00:42,727
+The same applies to secrets. A read-only command can still be
+dangerous when it points at a dot env file, an SSH key, or another
+credential.
 
 5
-00:00:35,158 --> 00:00:45,250
-Preflight scans the repository before the agent starts. In
-the sample repo, it finds an npm lifecycle script and an
-instruction that tells the agent to ignore safety.
+00:00:43,247 --> 00:00:54,235
+Before the agent starts, preflight checks the repository too. Here,
+it catches an NPM lifecycle script, and an instruction designed to
+override the safety rules.
 
 6
-00:00:45,350 --> 00:00:52,541
-The report command turns a JSONL session log into
-Markdown, preserving which command was blocked and the
-reason for that decision.
+00:00:54,755 --> 00:01:02,267
+Afterward, the report command turns the session log into readable
+Markdown, so you can see exactly what was blocked and why.
 
 7
-00:00:52,641 --> 00:01:01,222
-Agent Quarantine is honest about its boundary. It is not a
-virtual machine or kernel sandbox, and absolute path
-binaries can bypass PATH shims.
+00:01:02,787 --> 00:01:12,730
+One important limitation: this isn't a virtual machine or a kernel
+sandbox. Binaries called by absolute path can still bypass path-
+based shims.
 
 8
-00:01:01,322 --> 00:01:10,944
-Before handing an unfamiliar repo to an AI agent, Agent
-Quarantine gives you a practical first layer that stops
-common dangerous commands and creates a readable audit
-trail.
+00:01:13,250 --> 00:01:23,727
+For an unfamiliar repository, Agent Quarantine gives you a practical
+first layer: one that stops common dangerous commands and leaves a
+clear audit trail.
