@@ -31,11 +31,29 @@ pub enum Command {
     Report(ReportArgs),
     /// Create or inspect policy configuration.
     Policy(PolicyArgs),
+    /// Generate shell completion scripts for `aq`.
+    Completions(CompletionsArgs),
     /// Print version information.
     Version,
     /// Internal shim entrypoint (normally reached via PATH shims).
     #[command(hide = true)]
     Shim(ShimArgs),
+}
+
+/// `agent-quarantine completions <SHELL>`
+#[derive(Debug, Args)]
+pub struct CompletionsArgs {
+    /// Shell to generate completions for.
+    #[arg(value_enum)]
+    pub shell: CompletionShell,
+}
+
+/// Shells supported by the completion generator.
+#[derive(Debug, Clone, Copy, ValueEnum)]
+pub enum CompletionShell {
+    Bash,
+    Zsh,
+    Fish,
 }
 
 /// `agent-quarantine run [OPTIONS] -- <COMMAND>...`

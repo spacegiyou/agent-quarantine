@@ -84,6 +84,44 @@ aq policy init            # writes agent-quarantine.yaml
 aq policy show            # prints the effective policy
 ```
 
+## Shell completions
+
+`aq completions` generates a completion script for Bash, Zsh, or Fish. The
+script targets the short `aq` command, so first make sure the alias from the
+installation step is available in each new shell.
+
+Load completions for the current shell session:
+
+```bash
+# Bash
+source /dev/stdin <<<"$(aq completions bash)"
+
+# Zsh (requires compinit to be enabled)
+source <(aq completions zsh)
+
+# Fish
+aq completions fish | source
+```
+
+To install them persistently, write the generated script to a file loaded by
+your shell and regenerate it after upgrading Agent Quarantine:
+
+```bash
+# Bash
+mkdir -p ~/.config/agent-quarantine
+aq completions bash > ~/.config/agent-quarantine/aq.bash
+# Add this line to ~/.bashrc (or ~/.bash_profile for login shells):
+source ~/.config/agent-quarantine/aq.bash
+
+# Zsh (add ~/.zfunc to fpath before running compinit)
+mkdir -p ~/.zfunc
+aq completions zsh > ~/.zfunc/_aq
+
+# Fish
+mkdir -p ~/.config/fish/completions
+aq completions fish > ~/.config/fish/completions/aq.fish
+```
+
 ## What it blocks (by default)
 
 | Rule | Example |
