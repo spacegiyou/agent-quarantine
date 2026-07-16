@@ -1,8 +1,8 @@
 //! End-to-end CLI tests.
 //!
-//! These drive the real `agent-quarantine` binary. They rely only on `sh` being
-//! present (always true on the Linux/macOS targets) and never touch the network:
-//! every "risky" command is blocked before it can run.
+//! These drive the real `agent-quarantine` binary. They rely only on `sh` and
+//! `bash` being present on the supported Linux/macOS targets and never touch the
+//! network: every "risky" command is blocked before it can run.
 
 use std::fs;
 #[cfg(unix)]
@@ -42,11 +42,49 @@ fn prints_help_and_version() {
         .assert()
         .success()
         .stdout(predicate::str::contains("command firewall"))
+        .stdout(predicate::str::contains("completions"))
         .stdout(predicate::str::contains("version"));
     aq().arg("version")
         .assert()
         .success()
         .stdout(predicate::str::contains("agent-quarantine 0.1.0"));
+}
+
+#[test]
+fn generates_completions_for_supported_shells() {
+    for (shell, marker, internal_marker) in [
+        ("bash", "complete -F _aq", "aq__shim"),
+        ("zsh", "#compdef aq", "_aq__shim"),
+        ("fish", "complete -c aq", "__fish_aq_using_subcommand shim"),
+    ] {
+        aq().args(["completions", shell])
+            .assert()
+            .success()
+            .stderr(predicate::str::is_empty())
+            .stdout(predicate::str::contains(marker))
+            .stdout(predicate::str::contains("preflight"))
+            .stdout(predicate::str::contains(internal_marker).not());
+    }
+}
+
+#[cfg(unix)]
+#[test]
+fn bash_completion_script_loads_and_registers_aq() {
+    let output = aq().args(["completions", "bash"]).output().unwrap();
+    assert!(output.status.success());
+
+    let dir = tempfile::tempdir().unwrap();
+    let script = dir.path().join("aq.bash");
+    fs::write(&script, output.stdout).unwrap();
+
+    Command::new("bash")
+        .args(["--noprofile", "--norc", "-c"])
+        .arg(r#"source "$1"; complete -p aq"#)
+        .arg("bash")
+        .arg(script)
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("-F _aq aq"));
 }
 
 #[cfg(unix)]

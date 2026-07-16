@@ -1,5 +1,6 @@
 //! Subcommand implementations and the top-level dispatcher.
 
+pub mod completions;
 pub mod policy;
 pub mod preflight;
 pub mod report;
@@ -20,6 +21,7 @@ pub fn dispatch() -> ExitCode {
         Command::Preflight(args) => preflight::execute(args),
         Command::Report(args) => report::execute(args),
         Command::Policy(args) => policy::execute(args),
+        Command::Completions(args) => completions::execute(args),
         Command::Version => {
             println!("agent-quarantine {}", env!("CARGO_PKG_VERSION"));
             Ok(ExitCode::SUCCESS)
